@@ -1,5 +1,5 @@
 # 使用 kasmweb/core-debian-bookworm 作为基础镜像
-FROM kasmweb/core-debian-bookworm:1.13.0
+FROM kasmweb/core-debian-bookworm:1.16.0
 
 # 设置环境变量
 ENV HOME /home/kasm-default-profile
