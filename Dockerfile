@@ -42,6 +42,7 @@ RUN apt-get update && apt-get upgrade -y && \
 
 # 下载并安装 PyCharm 社区版
 RUN wget -O pycharm.tar.gz "https://download.jetbrains.com/python/pycharm-community-2024.2.2.tar.gz" \
+    && mkdir -p /opt \
     && tar -xzf pycharm.tar.gz -C /opt \
     && rm pycharm.tar.gz
 
