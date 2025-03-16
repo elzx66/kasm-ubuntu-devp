@@ -1,10 +1,10 @@
-# 使用 kasmweb/core-debian-bookworm 作为基础镜像
+# 使用指定的基础镜像
 FROM kasmweb/core-debian-bookworm:1.16.0
 
 # 设置环境变量
 ENV HOME=/home/kasm-default-profile
-ENV STARTUPDIRE=/dockerstartup
-ENV INST_SCRIPTSE=$STARTUPDIR/install
+ENV STARTUPDIR=/dockerstartup
+ENV INST_SCRIPTS=$STARTUPDIR/install
 WORKDIR $HOME
 
 # 安装必要的依赖
@@ -29,10 +29,6 @@ RUN ln -s /opt/pycharm-community-2024.2.2/bin/pycharm.sh /usr/local/bin/pycharm
 
 # 清理
 RUN apt-get clean
-
-# 复制配置文件
-COPY kasm_user $HOME
-RUN chown -R 1000:0 $HOME
 
 # 设置权限
 RUN $STARTUPDIR/set_user_permission.sh $HOME
