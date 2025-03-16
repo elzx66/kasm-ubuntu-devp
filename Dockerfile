@@ -1,5 +1,5 @@
 # 使用指定的基础镜像
-FROM kasmweb/core-debian-bookworm:1.16.0
+FROM kasmweb/core-ubuntu-noble:1.16.1
 
 # 设置环境变量
 ENV HOME=/home/kasm-default-profile
