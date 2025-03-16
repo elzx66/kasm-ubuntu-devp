@@ -37,7 +37,7 @@ jobs:
           context: .
           push: true
           tags: |
-            dlecu/kasmweb-pycharm:1.0.0
+            dlecu/kasmweb-pycharm:1.0.1
             dlecu/kasmweb-pycharm:latest
-            ghcr.io/${{ env.LOWERCASE_REPO_OWNER }}/kasmweb-pycharm:1.0.0
+            ghcr.io/${{ env.LOWERCASE_REPO_OWNER }}/kasmweb-pycharm:1.0.1
             ghcr.io/${{ env.LOWERCASE_REPO_OWNER }}/kasmweb-pycharm:latest 
