@@ -10,28 +10,28 @@ ENV STARTUPDIR=/dockerstartup
 ENV INST_SCRIPTS=$STARTUPDIR/install
 WORKDIR $HOME
 
-# 检查磁盘空间和内存使用情况
-# RUN df -h
-# RUN free -h
+# # 检查磁盘空间和内存使用情况
+# # RUN df -h
+# # RUN free -h
 
-# 检查文件系统状态
-RUN ls -l /var/lib/apt/lists
+# # 检查文件系统状态
+# RUN ls -l /var/lib/apt/lists
 
-# # 确保权限正常
-# RUN chmod -R 755 /var/lib/apt/lists
+# # # 确保权限正常
+# # RUN chmod -R 755 /var/lib/apt/lists
 
-# 尝试修改权限
-RUN if [ -d "/var/lib/apt/lists" ]; then chmod -R 755 /var/lib/apt/lists; fi
+# # 尝试修改权限
+# RUN if [ -d "/var/lib/apt/lists" ]; then chmod -R 755 /var/lib/apt/lists; fi
 
-# 重新安装 apt 相关软件包
-RUN apt-get update && apt-get install --reinstall -y apt apt-utils
+# # 重新安装 apt 相关软件包
+# RUN apt-get update && apt-get install --reinstall -y apt apt-utils
 
-# 清理缓存
-RUN apt-get clean
-RUN apt-get autoclean
+# # 清理缓存
+# RUN apt-get clean
+# RUN apt-get autoclean
 
-# 安装必要的依赖
-RUN apt-get update || apt-get update
+# # 安装必要的依赖
+# RUN apt-get update || apt-get update
 # 安装必要的依赖
 RUN apt-get update && apt-get upgrade -y && \
     apt-get install -y \
