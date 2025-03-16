@@ -48,11 +48,11 @@ RUN wget -O pycharm.tar.gz "https://download.jetbrains.com/python/pycharm-commun
 
 # 创建 PyCharm 快捷方式到桌面
 RUN mkdir -p $HOME/Desktop
-RUN echo "[Desktop Entry]\nName=PyCharm Community Edition\nComment=Python IDE\nExec=/opt/pycharm-community-2024.2.2/bin/pycharm.sh\nIcon=/opt/pycharm-community-2024.2.2/bin/pycharm.svg\nTerminal=false\nType=Application\nCategories=Development;" > $HOME/Desktop/pycharm.desktop
+RUN echo "[Desktop Entry]\nName=PyCharm Community Edition\nComment=Python IDE\nExec=/opt/pycharm-community-2024.2.2/bin/pycharm\nIcon=/opt/pycharm-community-2024.2.2/bin/pycharm.svg\nTerminal=false\nType=Application\nCategories=Development;" > $HOME/Desktop/pycharm.desktop
 RUN chmod +x $HOME/Desktop/pycharm.desktop
 
 # 设置 PyCharm 快捷方式
-RUN ln -s /opt/pycharm-community-2024.2.2/bin/pycharm.sh /usr/local/bin/pycharm
+RUN ln -s /opt/pycharm-community-2024.2.2/bin/pycharm /usr/local/bin/pycharm
 
 # 清理
 RUN apt-get clean
