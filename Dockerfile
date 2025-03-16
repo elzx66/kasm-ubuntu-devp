@@ -7,6 +7,19 @@ ENV STARTUPDIR=/dockerstartup
 ENV INST_SCRIPTS=$STARTUPDIR/install
 WORKDIR $HOME
 
+# 检查磁盘空间和内存使用情况
+RUN df -h
+RUN free -h
+
+# 检查文件系统状态
+RUN ls -l /var/lib/apt/lists
+
+# 确保权限正常
+RUN chmod -R 755 /var/lib/apt/lists
+
+# 重新安装 apt 相关软件包
+RUN apt-get update && apt-get install --reinstall -y apt apt-utils
+
 # 清理缓存
 RUN apt-get clean
 RUN apt-get autoclean
