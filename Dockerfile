@@ -2,9 +2,9 @@
 FROM kasmweb/core-debian-bookworm:1.16.0
 
 # 设置环境变量
-ENV HOME /home/kasm-default-profile
-ENV STARTUPDIR /dockerstartup
-ENV INST_SCRIPTS $STARTUPDIR/install
+ENV HOME=/home/kasm-default-profile
+ENV STARTUPDIRE=/dockerstartup
+ENV INST_SCRIPTSE=$STARTUPDIR/install
 WORKDIR $HOME
 
 # 安装必要的依赖
