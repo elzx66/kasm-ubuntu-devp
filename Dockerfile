@@ -1,6 +1,9 @@
 # 使用指定的基础镜像
 FROM kasmweb/core-ubuntu-noble:1.16.1
 
+# 明确以 root 用户身份执行后续命令
+USER root
+
 # 设置环境变量
 ENV HOME=/home/kasm-default-profile
 ENV STARTUPDIR=/dockerstartup
@@ -8,14 +11,17 @@ ENV INST_SCRIPTS=$STARTUPDIR/install
 WORKDIR $HOME
 
 # 检查磁盘空间和内存使用情况
-RUN df -h
-RUN free -h
+# RUN df -h
+# RUN free -h
 
 # 检查文件系统状态
 RUN ls -l /var/lib/apt/lists
 
-# 确保权限正常
-RUN chmod -R 755 /var/lib/apt/lists
+# # 确保权限正常
+# RUN chmod -R 755 /var/lib/apt/lists
+
+# 尝试修改权限
+RUN if [ -d "/var/lib/apt/lists" ]; then chmod -R 755 /var/lib/apt/lists; fi
 
 # 重新安装 apt 相关软件包
 RUN apt-get update && apt-get install --reinstall -y apt apt-utils
