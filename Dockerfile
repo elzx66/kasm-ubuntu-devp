@@ -7,8 +7,15 @@ ENV STARTUPDIR=/dockerstartup
 ENV INST_SCRIPTS=$STARTUPDIR/install
 WORKDIR $HOME
 
+# 清理缓存
+RUN apt-get clean
+RUN apt-get autoclean
+
 # 安装必要的依赖
-RUN apt-get update && apt-get install -y \
+RUN apt-get update || apt-get update
+# 安装必要的依赖
+RUN apt-get update && apt-get upgrade -y && \
+    apt-get install -y \
     wget \
     unzip \
     openjdk-17-jdk \
