@@ -1,5 +1,5 @@
 # 使用指定的基础镜像
-FROM kasmweb/core-ubuntu-noble:1.16.1
+FROM linuxserver/wps-office:11.1.0
 
 # 明确以 root 用户身份执行后续命令
 USER root
@@ -60,8 +60,8 @@ RUN apt-get clean
 # 设置权限
 RUN $STARTUPDIR/set_user_permission.sh $HOME
 
-# 暴露端口（如果需要）
-EXPOSE 8080
+# # 暴露端口（如果需要）
+# EXPOSE 8080
 
-# 启动命令
-CMD ["/usr/local/bin/pycharm"]
+# # 启动命令
+# CMD ["/usr/local/bin/pycharm"]
