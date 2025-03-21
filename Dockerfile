@@ -1,67 +1,36 @@
-# 使用指定的基础镜像
+# 使用 linuxserver/wps-office:11.1.0 作为基础镜像
 FROM linuxserver/wps-office:11.1.0
 
-# 明确以 root 用户身份执行后续命令
-USER root
-
 # 设置环境变量
-ENV HOME=/home/kasm-default-profile
-ENV STARTUPDIR=/dockerstartup
-ENV INST_SCRIPTS=$STARTUPDIR/install
-WORKDIR $HOME
+ENV PYCHARM_VERSION=2024.1.1
+ENV PYCHARM_URL=https://download.jetbrains.com/python/pycharm-community-$PYCHARM_VERSION.tar.gz
+ENV PYCHARM_HOME=/opt/pycharm
 
-# # 检查磁盘空间和内存使用情况
-# # RUN df -h
-# # RUN free -h
-
-# # 检查文件系统状态
-# RUN ls -l /var/lib/apt/lists
-
-# # # 确保权限正常
-# # RUN chmod -R 755 /var/lib/apt/lists
-
-# # 尝试修改权限
-# RUN if [ -d "/var/lib/apt/lists" ]; then chmod -R 755 /var/lib/apt/lists; fi
-
-# # 重新安装 apt 相关软件包
-# RUN apt-get update && apt-get install --reinstall -y apt apt-utils
-
-# # 清理缓存
-# RUN apt-get clean
-# RUN apt-get autoclean
-
-# # 安装必要的依赖
-# RUN apt-get update || apt-get update
 # 安装必要的依赖
-RUN apt-get update && apt-get upgrade -y && \
-    apt-get install -y \
+RUN apt-get update && apt-get install -y \
     wget \
-    unzip \
-    openjdk-17-jdk \
+    tar \
     && rm -rf /var/lib/apt/lists/*
 
-# 下载并安装 PyCharm 社区版
-RUN wget -O pycharm.tar.gz "https://download.jetbrains.com/python/pycharm-community-2024.2.2.tar.gz" \
-    && mkdir -p /opt \
-    && tar -xzf pycharm.tar.gz -C /opt \
-    && rm pycharm.tar.gz
+# 下载并解压 PyCharm 社区版
+RUN wget -O pycharm.tar.gz $PYCHARM_URL && \
+    mkdir -p $PYCHARM_HOME && \
+    tar -xzf pycharm.tar.gz --strip-components=1 -C $PYCHARM_HOME && \
+    rm pycharm.tar.gz
 
-# 创建 PyCharm 快捷方式到桌面
-RUN mkdir -p $HOME/Desktop
-RUN echo "[Desktop Entry]\nName=PyCharm Community Edition\nComment=Python IDE\nExec=/opt/pycharm-community-2024.2.2/bin/pycharm\nIcon=/opt/pycharm-community-2024.2.2/bin/pycharm.svg\nTerminal=false\nType=Application\nCategories=Development;" > $HOME/Desktop/pycharm.desktop
-RUN chmod +x $HOME/Desktop/pycharm.desktop
+# 创建 PyCharm 设置的永久化文件夹
+RUN mkdir -p /config/pycharm
 
-# 设置 PyCharm 快捷方式
-RUN ln -s /opt/pycharm-community-2024.2.2/bin/pycharm /usr/local/bin/pycharm
+# 添加启动 PyCharm 的脚本
+RUN echo "#!/bin/bash" > /usr/local/bin/start-pycharm && \
+    echo "$PYCHARM_HOME/bin/pycharm.sh -Didea.config.path=/config/pycharm/config -Didea.system.path=/config/pycharm/system" >> /usr/local/bin/start-pycharm && \
+    chmod +x /usr/local/bin/start-pycharm
 
-# 清理
-RUN apt-get clean
+# 设置工作目录
+WORKDIR /config
 
-# 设置权限
-RUN $STARTUPDIR/set_user_permission.sh $HOME
+# 暴露端口（如果 PyCharm 需要）
+EXPOSE 8080
 
-# # 暴露端口（如果需要）
-# EXPOSE 8080
-
-# # 启动命令
-# CMD ["/usr/local/bin/pycharm"]
+# 启动 PyCharm
+CMD ["start-pycharm"]
