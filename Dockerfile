@@ -1,7 +1,7 @@
-# 使用 linuxserver/wps-office:chinese-version-2025-03-21 作为基础镜像
+# 使用 linuxserver/wps-office:chinese-version-2025-03-21 作为基础镜像（chinese包基于是 Arch Linux，非中文版确实debian Linux）
 FROM linuxserver/wps-office:chinese-version-2025-03-21
 
-# USER root
+USER root
 
 # 设置环境变量
 ENV PYCHARM_VERSION=2024.1.1
@@ -9,10 +9,9 @@ ENV PYCHARM_URL=https://download.jetbrains.com/python/pycharm-community-$PYCHARM
 ENV PYCHARM_HOME=/opt/pycharm
 
 # 安装必要的依赖
-RUN apt-get update || true && apt-get install -y --no-install-recommends \
+RUN pacman -Syu --noconfirm \
     wget \
-    tar \
-    && rm -rf /var/lib/apt/lists/*
+    tar
 
 # 下载并解压 PyCharm 社区版
 RUN wget -O pycharm.tar.gz $PYCHARM_URL && \
