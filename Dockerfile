@@ -1,5 +1,5 @@
-# 使用 linuxserver/wps-office:11.1.0 作为基础镜像
-FROM linuxserver/wps-office:11.1.0
+# 使用 linuxserver/wps-office:chinese-version-2025-03-21 作为基础镜像
+FROM linuxserver/wps-office:chinese-version-2025-03-21
 
 # 设置环境变量
 ENV PYCHARM_VERSION=2024.1.1
@@ -26,11 +26,19 @@ RUN echo "#!/bin/bash" > /usr/local/bin/start-pycharm && \
     echo "$PYCHARM_HOME/bin/pycharm.sh -Didea.config.path=/config/pycharm/config -Didea.system.path=/config/pycharm/system" >> /usr/local/bin/start-pycharm && \
     chmod +x /usr/local/bin/start-pycharm
 
+# 创建桌面快捷方式
+RUN echo "[Desktop Entry]" > /usr/share/applications/pycharm.desktop && \
+    echo "Name=PyCharm Community Edition" >> /usr/share/applications/pycharm.desktop && \
+    echo "Comment=Python IDE" >> /usr/share/applications/pycharm.desktop && \
+    echo "Exec=/usr/local/bin/start-pycharm" >> /usr/share/applications/pycharm.desktop && \
+    echo "Icon=$PYCHARM_HOME/bin/pycharm.svg" >> /usr/share/applications/pycharm.desktop && \
+    echo "Terminal=false" >> /usr/share/applications/pycharm.desktop && \
+    echo "Type=Application" >> /usr/share/applications/pycharm.desktop && \
+    echo "Categories=Development;IDE;" >> /usr/share/applications/pycharm.desktop
+
+# 在 Xfce 任务栏添加 PyCharm 快捷方式
+RUN mkdir -p /config/.config/xfce4/panel/launcher-1 && \
+    ln -s /usr/share/applications/pycharm.desktop /config/.config/xfce4/panel/launcher-1/pycharm.desktop
+
 # 设置工作目录
-WORKDIR /config
-
-# # 暴露端口（如果 PyCharm 需要）
-# EXPOSE 8080
-
-# # 启动 PyCharm
-# CMD ["start-pycharm"]
+WORKDIR /config 
