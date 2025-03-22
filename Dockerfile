@@ -1,7 +1,7 @@
 # 使用 linuxserver/wps-office:chinese-version-2025-03-21 作为基础镜像
 FROM linuxserver/wps-office:chinese-version-2025-03-21
 
-USER root
+# USER root
 
 # 设置环境变量
 ENV PYCHARM_VERSION=2024.1.1
