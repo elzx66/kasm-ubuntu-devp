@@ -29,8 +29,8 @@ RUN echo "#!/bin/bash" > /usr/local/bin/start-pycharm && \
 # 设置工作目录
 WORKDIR /config
 
-# 暴露端口（如果 PyCharm 需要）
-EXPOSE 8080
+# # 暴露端口（如果 PyCharm 需要）
+# EXPOSE 8080
 
-# 启动 PyCharm
-CMD ["start-pycharm"]
+# # 启动 PyCharm
+# CMD ["start-pycharm"]
