@@ -1,6 +1,8 @@
 # 使用 linuxserver/wps-office:chinese-version-2025-03-21 作为基础镜像
 FROM linuxserver/wps-office:chinese-version-2025-03-21
 
+USER root
+
 # 设置环境变量
 ENV PYCHARM_VERSION=2024.1.1
 ENV PYCHARM_URL=https://download.jetbrains.com/python/pycharm-community-$PYCHARM_VERSION.tar.gz
@@ -41,4 +43,6 @@ RUN mkdir -p /config/.config/xfce4/panel/launcher-1 && \
     ln -s /usr/share/applications/pycharm.desktop /config/.config/xfce4/panel/launcher-1/pycharm.desktop
 
 # 设置工作目录
-WORKDIR /config 
+WORKDIR /config
+
+USER kasm-user
