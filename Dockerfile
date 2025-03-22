@@ -9,7 +9,7 @@ ENV PYCHARM_URL=https://download.jetbrains.com/python/pycharm-community-$PYCHARM
 ENV PYCHARM_HOME=/opt/pycharm
 
 # 安装必要的依赖
-RUN apt-get update && apt-get install -y \
+RUN apt-get update || true && apt-get install -y --no-install-recommends \
     wget \
     tar \
     && rm -rf /var/lib/apt/lists/*
